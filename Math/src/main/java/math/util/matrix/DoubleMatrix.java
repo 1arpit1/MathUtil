@@ -3,6 +3,7 @@ package math.util.matrix;
 import math.util.Constants;
 import math.util.exceptions.SizeMisMatchException;
 import math.util.exceptions.IllegalArgumentException;
+
 public class DoubleMatrix implements Cloneable {
 	private Double[][] elements = null;
 	private int rows;
@@ -65,7 +66,8 @@ public class DoubleMatrix implements Cloneable {
 		return this.rows * this.cols;
 	}
 
-	public static DoubleMatrix random(int M, int N, final double min, final double max) {
+	public static DoubleMatrix random(int M, int N, final double min,
+			final double max) {
 		DoubleMatrix A = new DoubleMatrix(M, N);
 		for (int i = 0; i < M; i++) {
 			for (int j = 0; j < N; j++) {
@@ -98,17 +100,20 @@ public class DoubleMatrix implements Cloneable {
 
 	private void validate(final int row, final int col) {
 		if ((row >= getRows()) || (row < 0)) {
-			throw new SizeMisMatchException("The row:" + row + " is out of range:" + getRows());
+			throw new SizeMisMatchException("The row:" + row
+					+ " is out of range:" + getRows());
 		}
 		if ((col >= getCols()) || (col < 0)) {
-			throw new SizeMisMatchException("The col:" + col + " is out of range:" + getCols());
+			throw new SizeMisMatchException("The col:" + col
+					+ " is out of range:" + getCols());
 		}
 	}
 
 	public void set(final int row, final int col, final double value) {
 		validate(row, col);
 		if (Double.isInfinite(value) || Double.isNaN(value)) {
-			throw new IllegalArgumentException("Trying to assign invalid number to matrix: " + value);
+			throw new IllegalArgumentException(
+					"Trying to assign invalid number to matrix: " + value);
 		}
 		this.elements[row][col] = value;
 	}
@@ -139,7 +144,8 @@ public class DoubleMatrix implements Cloneable {
 
 	public DoubleMatrix getRow(final int row) {
 		if (row > getRows()) {
-			throw new SizeMisMatchException("Can't get row #" + row + " because it does not exist.");
+			throw new SizeMisMatchException("Can't get row #" + row
+					+ " because it does not exist.");
 		}
 		final double newMatrix[][] = new double[1][getCols()];
 		for (int col = 0; col < getCols(); col++) {
@@ -150,7 +156,8 @@ public class DoubleMatrix implements Cloneable {
 
 	public DoubleMatrix getCol(final int col) {
 		if (col > getCols()) {
-			throw new SizeMisMatchException("Can't get column #" + col + " because it does not exist.");
+			throw new SizeMisMatchException("Can't get column #" + col
+					+ " because it does not exist.");
 		}
 		final double newMatrix[][] = new double[getRows()][1];
 		for (int row = 0; row < getRows(); row++) {
@@ -258,7 +265,8 @@ public class DoubleMatrix implements Cloneable {
 
 	public static DoubleMatrix identity(final int size) {
 		if (size < 1) {
-			throw new SizeMisMatchException("Identity DoubleMatrix must be at least of size 1.");
+			throw new SizeMisMatchException(
+					"Identity DoubleMatrix must be at least of size 1.");
 		}
 		final DoubleMatrix result = new DoubleMatrix(size, size);
 		for (int i = 0; i < size; i++) {
@@ -279,20 +287,34 @@ public class DoubleMatrix implements Cloneable {
 		return result;
 	}
 
-	public DoubleMatrix getSubMatrix(int rowStartIndex, int rowEndIndex, int colStartIndex, int colEndIndex) {
-		if (rowEndIndex > (this.getRows() - 1) || rowEndIndex < 1 || rowStartIndex > (this.getRows() - 2)
-				|| rowStartIndex < 0 || rowStartIndex >= rowEndIndex) {
-			throw new SizeMisMatchException("the row starting index is = " + rowStartIndex + " and end index is = "
-					+ rowEndIndex + " ,which is either not in range(0," + this.getRows()
-					+ " ,or end index is equal to or smaller than strating index");
+	public DoubleMatrix getSubMatrix(int rowStartIndex, int rowEndIndex,
+			int colStartIndex, int colEndIndex) {
+		if (rowEndIndex > (this.getRows() - 1) || rowEndIndex < 1
+				|| rowStartIndex > (this.getRows() - 2) || rowStartIndex < 0
+				|| rowStartIndex >= rowEndIndex) {
+			throw new SizeMisMatchException(
+					"the row starting index is = "
+							+ rowStartIndex
+							+ " and end index is = "
+							+ rowEndIndex
+							+ " ,which is either not in range(0,"
+							+ this.getRows()
+							+ " ,or end index is equal to or smaller than strating index");
 		}
-		if (colEndIndex > (this.getCols() - 1) || colEndIndex < 1 || colStartIndex > (this.getCols() - 2)
-				|| colStartIndex < 0 || colStartIndex >= colEndIndex) {
-			throw new SizeMisMatchException("the col starting index is = " + colStartIndex + " and end index is = "
-					+ colEndIndex + " ,which is either not in range(0," + this.getCols()
-					+ " ,or end index is equal to or smaller than strating index");
+		if (colEndIndex > (this.getCols() - 1) || colEndIndex < 1
+				|| colStartIndex > (this.getCols() - 2) || colStartIndex < 0
+				|| colStartIndex >= colEndIndex) {
+			throw new SizeMisMatchException(
+					"the col starting index is = "
+							+ colStartIndex
+							+ " and end index is = "
+							+ colEndIndex
+							+ " ,which is either not in range(0,"
+							+ this.getCols()
+							+ " ,or end index is equal to or smaller than strating index");
 		}
-		double[][] d = new double[rowEndIndex - rowStartIndex + 1][colEndIndex - colStartIndex + 1];
+		double[][] d = new double[rowEndIndex - rowStartIndex + 1][colEndIndex
+				- colStartIndex + 1];
 		for (int i = rowStartIndex; i <= rowEndIndex; i++) {
 			for (int j = colStartIndex; j <= colEndIndex; j++) {
 				d[i - rowStartIndex][j - colStartIndex] = this.elements[i][j];
@@ -314,7 +336,8 @@ public class DoubleMatrix implements Cloneable {
 
 	public void setFromPackedArray(final Double[] array) {
 		if (array.length != this.size()) {
-			throw new SizeMisMatchException("array size and row,columns does match up!!!");
+			throw new SizeMisMatchException(
+					"array size and row,columns does match up!!!");
 		}
 		int index = 0;
 		for (int r = 0; r < getRows(); r++) {
@@ -355,7 +378,8 @@ public class DoubleMatrix implements Cloneable {
 
 	public void setElements(double[][] elements) {
 		if ((this.rows != elements.length) || (this.cols != elements[0].length)) {
-			throw new SizeMisMatchException("dimentions do not match given rows and cols value");
+			throw new SizeMisMatchException(
+					"dimentions do not match given rows and cols value");
 		} else {
 			for (int i = 0; i < this.rows; i++) {
 				for (int j = 0; j < this.cols; j++) {
